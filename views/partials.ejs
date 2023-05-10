@@ -1,0 +1,14 @@
+<!-- EJS partials -->
+<html>
+  <head>
+    <title>
+      <%= title %>
+    </title>
+  </head>
+  <body>
+  <%- include('partials/header') %>
+    <h1>Welcome to <%= title %></h1>
+    <p>This is an example of using EJS partials with Express.</p>
+    <%- include('partials/footer') %>
+  </body>
+</html>
