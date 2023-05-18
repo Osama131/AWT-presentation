@@ -1,0 +1,20 @@
+<%- include('partials/header') -%>
+
+<div class="text-center center-div mt-5" id="login">
+    <div class="container w-25 border py-5 mt-5">
+        <h2>Welcome to Users App</h3>
+        <h4><%= locals.user %></h5>
+        <br>
+        <h5>Here is a list of all users using the Users App</h5>
+        <br>
+        <ol>
+            <% for(let i=0; i<locals.users.length; i++) { %>
+              <li><%= locals.users[i].name %></li>
+            <% } %>
+          </ol>
+          <br>
+        <a href="/route/logout">Logout</a>
+    </div>
+</div>
+
+<%- include('partials/footer') -%>
