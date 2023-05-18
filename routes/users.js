@@ -7,4 +7,8 @@ router.get('/', function (req, res) {
   res.render('JavaScriptSyntax', { users: users });
 });
 
+router.get('/log', function (req, res) {
+  res.send('Test..');
+});
+
 module.exports = router;
