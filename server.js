@@ -4,7 +4,7 @@ const bodyparser = require("body-parser");
 const session = require("express-session");
 const { v4: uuidv4 } = require("uuid");
 
-const router = require('./router');
+const router = require('./routes/router');
 
 const app = express();
 
