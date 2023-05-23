@@ -1,47 +1,15 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
+const { loginUser, dashboard, logout } = require('../controller/controller');
+const { checkAuth } = require('../middleware/middleware');
 
-const  credential = {
-    email : "johndoe@gmail.com",
-    password : "johndoe123"
-}
+// Login user route
+router.post('/login', loginUser);
 
-const fakeusers = [
-    { name: 'Alice', email: 'alice@example.com' },
-    { name: 'Bob', email: 'bob@example.com' },
-    { name: 'Charlie', email: 'charlie@example.com' }
-  ];
+// Route for dashboard
+router.get('/dashboard', checkAuth, dashboard);
 
-// login user
-router.post('/login', (req, res)=>{
-    if(req.body.email == credential.email && req.body.password == credential.password){
-        req.session.user = req.body.email;
-        res.redirect('/route/dashboard');
-        res.end("Login Successful...!");
-    }else{
-        res.end("Invalid Username")
-    }
-});
-
-// route for dashboard
-router.get('/dashboard', (req, res) => {
-    if(req.session.user){
-        res.render('dashboard', {user : req.session.user,users : fakeusers} )
-    }else{
-        res.send("Unauthorize User")
-    }
-})
-
-// route for logout
-router.get('/logout', (req ,res)=>{
-    req.session.destroy(function(err){
-        if(err){
-            console.log(err);
-            res.send("Error")
-        }else{
-            res.render('index', { title: "Express", logout : "logout Successfully...!"})
-        }
-    })
-})
+// Route for logout
+router.get('/logout', logout);
 
 module.exports = router;
