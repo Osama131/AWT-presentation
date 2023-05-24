@@ -13,8 +13,8 @@ mongoose.connect(mongoURI, {
     })
     .then(() => {
         console.log('Connected to MongoDB');
-        app.listen(3000, () => {
-            console.log('Server started on port 3000'); 
+        app.listen(3306, () => {
+            console.log('Server started on port 3306'); 
         });
     })
     .catch((err) => {
@@ -22,46 +22,36 @@ mongoose.connect(mongoURI, {
     });
 
 
-const userSchema = new mongoose.Schema({    
-    name: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true,
-        // unique: true
-    },
-    age: {
-        type: Number,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
+
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String
 });
+  
+
+const UserModel = mongoose.model('User', userSchema);
+  
+
+const fakeUsers = [
+    { name: 'Alice', email: 'alice@example.com' },
+    { name: 'Bob', email: 'bob@example.com' },
+    { name: 'Charlie', email: 'charlie@example.com' }
+];
+  
+
+UserModel.countDocuments()
+  .then(count => {
+    if (count === 0) {
+      return UserModel.insertMany(fakeUsers);
+    }
+    return Promise.resolve(); // Resolve the promise if users already exist
+  })
+  .then(() => {
+    console.log('Fake users inserted successfully.');
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
-
-const usersData = [
-    { name: 'John Doe', email: 'john@example.com', age: 25 , password:'aa'},
-    { name: 'Jane Smith', email: 'jane@example.com', age: 30 ,password:'bb'},
-    { name: 'Bob Johnson', email: 'bob@example.com', age: 35 ,password:'bb'}
-    ];
-
-
-// Save the users to the database .. (list of users)
-User.insertMany(usersData)
-    .then(() => {
-        console.log('User created successfully');
-    })
-    .catch((err) => {
-        console.error('Error creating user', err);
-    });
-
-
-
+module.exports = UserModel;
